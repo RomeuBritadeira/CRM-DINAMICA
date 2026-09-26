@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dinâmica Consultoria - Presidência</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="area.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body data-area="presidencia">
+
+  <header class="area-header">
+    <div class="area-header-left">
+      <a href="index.html" class="back-home">
+        <i data-lucide="arrow-left"></i>
+        <span>Início</span>
+      </a>
+      <div class="logo-container">
+        <div class="logo-icon"><i data-lucide="waves"></i></div>
+        <div class="logo-text-wrap">
+          <span class="logo-text">dinâmica</span>
+          <span class="logo-sub">CONSULTORIA</span>
+        </div>
+      </div>
+    </div>
+    <h1 class="area-title" id="area-title">Presidência</h1>
+  </header>
+
+  <main class="area-main">
+    <div class="area-intro"><p id="area-intro"></p></div>
+    <nav class="section-tabs" id="section-tabs" role="tablist" aria-label="Seções da área"></nav>
+    <div id="section-panel"></div>
+  </main>
+
+  <script src="area-core.js"></script>
+  <script src="okr-data.js"></script>
+  <script src="area-sections.js"></script>
+</body>
+</html>

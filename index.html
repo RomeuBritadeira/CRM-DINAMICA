@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dinâmica Consultoria - Início</title>
+  <!-- Google Fonts - Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      --brand-navy: #0E2A42;
+      --brand-navy-light: #17405F;
+      --brand-green: #2E9E6B;
+      --brand-green-hover: #268A5C;
+      --bg-main: #F4F6F9;
+      --bg-card: #FFFFFF;
+      --border-color: #E2E8F0;
+      --text-main: #1A202C;
+      --text-muted: #718096;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-main);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header */
+    .home-header {
+      background: var(--brand-navy);
+      padding: 20px 40px;
+      display: flex;
+      align-items: center;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: var(--brand-green);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-text-wrap { display: flex; flex-direction: column; line-height: 1.1; }
+    .logo-text { color: #fff; font-size: 20px; font-weight: 700; }
+    .logo-sub { color: #A9BBCB; font-size: 10px; font-weight: 600; letter-spacing: 2px; }
+
+    /* Hero */
+    .home-main {
+      flex: 1;
+      width: 100%;
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 56px 24px;
+    }
+
+    .home-hero { margin-bottom: 40px; }
+    .home-hero h1 { font-size: 30px; font-weight: 700; margin-bottom: 8px; }
+    .home-hero p { font-size: 15px; color: var(--text-muted); }
+
+    /* Module cards */
+    .modules-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .module-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 28px;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03);
+      transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+    }
+
+    .module-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--brand-green);
+      box-shadow: 0 10px 20px -6px rgba(14, 42, 66, 0.15);
+    }
+
+    .module-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 12px;
+      background: #E6F6EE;
+      color: var(--brand-green);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .module-icon svg { width: 26px; height: 26px; }
+
+    .module-card h2 { font-size: 18px; font-weight: 700; }
+    .module-card p { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+
+    .module-cta {
+      margin-top: auto;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--brand-green);
+    }
+
+    .module-cta svg { width: 16px; height: 16px; }
+
+    /* Ambientes ainda não disponíveis */
+    .module-card.is-soon { cursor: default; }
+
+    .module-card.is-soon:hover {
+      transform: none;
+      border-color: var(--border-color);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03);
+    }
+
+    .module-card.is-soon .module-icon {
+      background: #EDF2F7;
+      color: #4A5568;
+    }
+
+    .module-badge {
+      margin-top: auto;
+      align-self: flex-start;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: #EDF2F7;
+      border-radius: 999px;
+      padding: 4px 10px;
+    }
+
+    .home-footer {
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-muted);
+      padding: 24px;
+    }
+
+    @media (max-width: 640px) {
+      .home-header { padding: 16px; }
+      .home-main { padding: 32px 16px; }
+      .home-hero h1 { font-size: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="home-header">
+    <div class="logo-container">
+      <div class="logo-icon"><i data-lucide="waves"></i></div>
+      <div class="logo-text-wrap">
+        <span class="logo-text">dinâmica</span>
+        <span class="logo-sub">CONSULTORIA</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="home-main">
+    <section class="home-hero">
+      <h1>Bem-vindo(a)</h1>
+      <p>Escolha a área que deseja acessar.</p>
+    </section>
+
+    <section class="modules-grid">
+      <a class="module-card" href="negocios.html">
+        <div class="module-icon"><i data-lucide="briefcase"></i></div>
+        <h2>Página de Negócios</h2>
+        <p>Dashboard, atividades, vendas e previsão de vendas: acompanhe o funil comercial e as metas.</p>
+        <span class="module-cta">Acessar <i data-lucide="arrow-right"></i></span>
+      </a>
+
+      <a class="module-card" href="okr.html">
+        <div class="module-icon"><i data-lucide="target"></i></div>
+        <h2>OKR</h2>
+        <p>Objetivos e resultados-chave de cada diretoria, separados pelos três ciclos, com edição direta.</p>
+        <span class="module-cta">Acessar <i data-lucide="arrow-right"></i></span>
+      </a>
+
+      <a class="module-card" href="juridico.html">
+        <div class="module-icon"><i data-lucide="scale"></i></div>
+        <h2>Jurídico Financeiro</h2>
+        <p>Receita realizada x meta do mês, saldo de caixa e inadimplência.</p>
+        <span class="module-cta">Acessar <i data-lucide="arrow-right"></i></span>
+      </a>
+
+      <a class="module-card" href="dho.html">
+        <div class="module-icon"><i data-lucide="users"></i></div>
+        <h2>Desenvolvimento Humano Organizacional</h2>
+        <p>Turnover no ciclo, horas de capacitação por membro e eNPS trimestral.</p>
+        <span class="module-cta">Acessar <i data-lucide="arrow-right"></i></span>
+      </a>
+
+      <a class="module-card" href="projetos.html">
+        <div class="module-icon"><i data-lucide="folder-kanban"></i></div>
+        <h2>Projetos</h2>
+        <p>Entregas no prazo, CSAT médio por entrega e cadastro de vendas.</p>
+        <span class="module-cta">Acessar <i data-lucide="arrow-right"></i></span>
+      </a>
+
+      <a class="module-card" href="marketing.html">
+        <div class="module-icon"><i data-lucide="megaphone"></i></div>
+        <h2>Marketing</h2>
+        <p>Leads gerados, custo por lead, conversão em diagnóstico e cadastro de vendas.</p>
+        <span class="module-cta">Acessar <i data-lucide="arrow-right"></i></span>
+      </a>
+
+      <a class="module-card" href="presidencia.html">
+        <div class="module-icon"><i data-lucide="landmark"></i></div>
+        <h2>Presidência</h2>
+        <p>Painel consolidado: métricas por diretoria, faturamento e engajamento dos membros.</p>
+        <span class="module-cta">Acessar <i data-lucide="arrow-right"></i></span>
+      </a>
+    </section>
+  </main>
+
+  <footer class="home-footer">Dinâmica Consultoria</footer>
+
+  <script>
+    if (window.lucide) window.lucide.createIcons();
+  </script>
+</body>
+</html>

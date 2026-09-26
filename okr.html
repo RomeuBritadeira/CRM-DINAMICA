@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dinâmica Consultoria - OKR</title>
+  <!-- Google Fonts - Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="okr.css">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <header class="okr-header">
+    <div class="okr-header-left">
+      <a href="index.html" class="back-home">
+        <i data-lucide="arrow-left"></i>
+        <span>Início</span>
+      </a>
+      <div class="logo-container">
+        <div class="logo-icon"><i data-lucide="waves"></i></div>
+        <div class="logo-text-wrap">
+          <span class="logo-text">dinâmica</span>
+          <span class="logo-sub">CONSULTORIA</span>
+        </div>
+      </div>
+    </div>
+    <h1 class="okr-title">OKR</h1>
+  </header>
+
+  <main class="okr-main">
+    <!-- Abas dos ciclos -->
+    <div class="okr-toolbar">
+      <div class="cycle-tabs" id="cycle-tabs" role="tablist" aria-label="Ciclos de OKR">
+        <!-- Rendered dynamically -->
+      </div>
+      <div class="okr-toolbar-right">
+        <span class="save-status" id="save-status"></span>
+        <button class="btn-reset" id="btn-reset-okr" type="button">
+          <i data-lucide="rotate-ccw"></i>
+          <span>Restaurar dados originais</span>
+        </button>
+      </div>
+    </div>
+
+    <p class="okr-hint">Clique em qualquer campo da tabela para editar. As alterações são salvas automaticamente neste navegador.</p>
+
+    <!-- Atalhos para cada diretoria do ciclo -->
+    <nav class="board-chips" id="board-chips" aria-label="Diretorias do ciclo"></nav>
+
+    <!-- Quadros de OKR do ciclo selecionado -->
+    <div id="okr-content"></div>
+  </main>
+
+  <script src="okr-data.js"></script>
+  <script src="okr.js"></script>
+</body>
+</html>

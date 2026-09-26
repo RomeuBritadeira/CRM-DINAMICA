@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dinâmica Consultoria - Negócios</title>
+  <!-- Google Fonts - Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Chart.js for beautiful Dashboard graphs -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="app-container">
+    
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo-container">
+          <div class="logo-icon">
+            <i data-lucide="waves"></i>
+          </div>
+          <div class="logo-text-wrap">
+            <span class="logo-text">dinâmica</span>
+            <span class="logo-sub">CONSULTORIA</span>
+          </div>
+        </div>
+      </div>
+      
+      <nav class="sidebar-nav">
+        <a href="index.html" class="nav-back-home">
+          <i data-lucide="arrow-left" class="nav-icon"></i>
+          <span>Voltar ao Início</span>
+        </a>
+        <div class="nav-section">
+          <span class="section-title">MENU</span>
+          <ul class="nav-list">
+            <li class="nav-item active" data-view="dashboard">
+              <i data-lucide="layout-dashboard" class="nav-icon"></i>
+              <span>Dashboard</span>
+            </li>
+            <li class="nav-item" data-view="atividades">
+              <i data-lucide="check-square" class="nav-icon"></i>
+              <span>Atividades</span>
+            </li>
+            <li class="nav-item" data-view="vendas">
+              <i data-lucide="shopping-bag" class="nav-icon"></i>
+              <span>Vendas</span>
+            </li>
+            <li class="nav-item" data-view="previsao">
+              <i data-lucide="trending-up" class="nav-icon"></i>
+              <span>Previsão de Vendas</span>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      
+      <!-- User Profile at bottom -->
+      <div class="sidebar-footer">
+        <div class="user-profile">
+          <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&q=80" alt="Samantha Rodrigues" class="user-avatar">
+          <div class="user-info">
+            <span class="user-name">Samantha Rodrigues</span>
+            <span class="user-email">samantha@marigoldent.com</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+      
+      <!-- TOP HEADER -->
+      <header class="main-header">
+        <div class="header-left">
+          <h1 id="page-title" class="page-title">Dashboard</h1>
+          <p id="page-subtitle" class="page-subtitle">Monitore sua produtividade, tarefas pendentes e progresso recente.</p>
+        </div>
+        <div class="header-right">
+          <!-- Search box -->
+          <div class="search-box-container" id="header-search-container">
+            <i data-lucide="search" class="search-icon"></i>
+            <input type="text" id="search-input" placeholder="Pesquisar atividades...">
+          </div>
+          <!-- Action Buttons -->
+          <div class="action-buttons">
+            <button class="btn btn-secondary" id="btn-export">
+              <i data-lucide="download"></i>
+              <span>Exportar</span>
+            </button>
+            <button class="btn btn-primary" id="btn-add-activity">
+              <i data-lucide="plus"></i>
+              <span>+ Add Atividade</span>
+            </button>
+            <button class="btn btn-primary" id="btn-add-sale" style="display: none;">
+              <i data-lucide="plus"></i>
+              <span>+ Nova Venda</span>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <!-- SUB HEADER CONTROLS (Only visible/relevant for Atividades view, but dynamically handled) -->
+      <div class="sub-header-controls" id="sub-header-controls" style="display: none;">
+        <!-- View Toggle Pills -->
+        <div class="view-toggle-container">
+          <button class="view-pill active" data-style="list">
+            <i data-lucide="list"></i>
+            <span>Lista</span>
+          </button>
+          <button class="view-pill" data-style="kanban">
+            <i data-lucide="kanban"></i>
+            <span>Kanban</span>
+          </button>
+        </div>
+
+        <!-- Filter Options -->
+        <div class="filter-options-bar">
+          <div class="filter-group">
+            <div class="custom-select-wrapper">
+              <i data-lucide="calendar" class="select-icon"></i>
+              <select id="filter-date">
+                <option value="all">Todas as Datas</option>
+                <option value="today">Hoje</option>
+                <option value="week">Esta Semana</option>
+                <option value="month">Este Mês</option>
+                <option value="q1">1º Trimestre (Jan–Mar)</option>
+                <option value="q2">2º Trimestre (Abr–Jun)</option>
+                <option value="q3">3º Trimestre (Jul–Set)</option>
+                <option value="q4">4º Trimestre (Out–Dez)</option>
+              </select>
+            </div>
+            
+            <div class="custom-select-wrapper">
+              <i data-lucide="user" class="select-icon"></i>
+              <select id="filter-assignee">
+                <option value="all">Todos Responsáveis</option>
+                <!-- Dynamically populated -->
+              </select>
+            </div>
+
+            <div class="custom-select-wrapper">
+              <i data-lucide="tag" class="select-icon"></i>
+              <select id="filter-priority">
+                <option value="all">Todas Prioridades</option>
+                <option value="high">Alta (Vermelho)</option>
+                <option value="medium">Média (Amarelo)</option>
+                <option value="low">Baixa (Verde)</option>
+              </select>
+            </div>
+          </div>
+          <button class="btn-reset" id="btn-reset-filters">Limpar Filtros</button>
+        </div>
+      </div>
+
+      <!-- VIEW DYNAMIC AREA -->
+      <div class="view-viewport">
+        
+        <!-- DASHBOARD VIEW -->
+        <div id="view-dashboard" class="view-panel active">
+          <!-- Quarter (Trimestre) Filter Tabs -->
+          <div class="dashboard-filter-tabs">
+            <div class="quarter-tabs" id="dashboard-quarter-tabs" role="tablist" aria-label="Filtrar por trimestre">
+              <button class="quarter-tab active" data-quarter="all" role="tab" aria-selected="true">Todos</button>
+              <button class="quarter-tab" data-quarter="1" role="tab" aria-selected="false" title="Janeiro – Março">1º Trimestre</button>
+              <button class="quarter-tab" data-quarter="2" role="tab" aria-selected="false" title="Abril – Junho">2º Trimestre</button>
+              <button class="quarter-tab" data-quarter="3" role="tab" aria-selected="false" title="Julho – Setembro">3º Trimestre</button>
+              <button class="quarter-tab" data-quarter="4" role="tab" aria-selected="false" title="Outubro – Dezembro">4º Trimestre</button>
+            </div>
+            <span class="quarter-tabs-period" id="dashboard-quarter-period"></span>
+          </div>
+
+          <!-- Stats Summary Row -->
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-card-icon bg-light-blue">
+                <i data-lucide="list-todo" class="text-blue"></i>
+              </div>
+              <div class="stat-card-info">
+                <span class="stat-label">Total de Atividades</span>
+                <h3 class="stat-value" id="stat-total-tasks">0</h3>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-icon bg-light-yellow">
+                <i data-lucide="clock" class="text-yellow"></i>
+              </div>
+              <div class="stat-card-info">
+                <span class="stat-label">Em Andamento</span>
+                <h3 class="stat-value" id="stat-pending-tasks">0</h3>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-icon bg-light-green">
+                <i data-lucide="check-circle-2" class="text-green"></i>
+              </div>
+              <div class="stat-card-info">
+                <span class="stat-label">Concluídas</span>
+                <h3 class="stat-value" id="stat-completed-tasks">0</h3>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-icon bg-light-purple">
+                <i data-lucide="trending-up" class="text-purple"></i>
+              </div>
+              <div class="stat-card-info">
+                <span class="stat-label">Produtividade</span>
+                <h3 class="stat-value" id="stat-productivity-rate">0%</h3>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-icon bg-light-teal">
+                <i data-lucide="dollar-sign" class="text-teal"></i>
+              </div>
+              <div class="stat-card-info">
+                <span class="stat-label">Valor em Negociação</span>
+                <h3 class="stat-value" id="stat-deal-value">R$ 0,00</h3>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-icon bg-light-purple">
+                <i data-lucide="receipt" class="text-purple"></i>
+              </div>
+              <div class="stat-card-info">
+                <span class="stat-label">Ticket Médio</span>
+                <h3 class="stat-value" id="stat-avg-ticket">R$ 0,00</h3>
+              </div>
+            </div>
+          </div>
+
+          <!-- Charts and Analytics Grid -->
+          <div class="dashboard-grid">
+            <div class="dashboard-chart-card">
+              <div class="chart-header">
+                <h3>Conversão por Etapa</h3>
+                <span class="chart-subtitle">Percentual de clientes que alcançaram cada etapa do Kanban</span>
+              </div>
+              <div class="conversion-funnel" id="conversion-funnel">
+                <!-- Funnel rows rendered dynamically -->
+              </div>
+            </div>
+
+            <div class="dashboard-chart-card">
+              <div class="chart-header">
+                <h3>Distribuição por Categoria</h3>
+                <span class="chart-subtitle">Canais de origem das atividades</span>
+              </div>
+              <div class="chart-container pie-container">
+                <canvas id="categoryChart"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sales Funnel -->
+          <div class="dashboard-chart-card sales-funnel-card">
+            <div class="chart-header">
+              <h3>Funil de Vendas</h3>
+              <span class="chart-subtitle">Valor em negociação (R$) que avança por cada etapa do Kanban e a conversão entre etapas</span>
+            </div>
+            <div class="sales-funnel" id="sales-funnel">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+
+          <!-- Recent Tasks / Activity Section -->
+          <div class="recent-activities-card">
+            <div class="card-header">
+              <h3>Atividades Recentes</h3>
+              <button class="btn-link" id="btn-see-all-activities">Ver tudo</button>
+            </div>
+            <div class="recent-list" id="recent-activities-list">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+        </div>
+
+        <!-- ATIVIDADES VIEW -->
+        <div id="view-atividades" class="view-panel">
+          
+          <!-- KANBAN CONTAINER (columns rendered dynamically from statuses) -->
+          <div id="atividades-kanban" class="kanban-container" style="display: none;">
+            <!-- Columns injected by renderKanbanView() -->
+          </div>
+
+          <!-- LIST TABLE CONTAINER -->
+          <div id="atividades-list" class="list-container">
+            <div class="table-card">
+              <table class="activities-table">
+                <thead>
+                  <tr>
+                    <th>Cliente / Contato</th>
+                    <th>Origem / Tag</th>
+                    <th>E-mail</th>
+                    <th>Telefone</th>
+                    <th>Responsável</th>
+                    <th>Prioridade</th>
+                    <th>Status</th>
+                    <th class="text-right">Ações</th>
+                  </tr>
+                </thead>
+                <tbody id="table-body">
+                  <!-- Dynamically populated rows -->
+                </tbody>
+              </table>
+              <div id="empty-state-list" class="empty-state" style="display: none;">
+                <i data-lucide="clipboard-list" class="empty-icon"></i>
+                <h3>Nenhuma atividade encontrada</h3>
+                <p>Experimente mudar os filtros ou adicione uma nova atividade.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- VENDAS VIEW -->
+        <div id="view-vendas" class="view-panel">
+
+          <!-- Sales summary strip -->
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-card-icon bg-light-blue">
+                <i data-lucide="shopping-bag" class="text-blue"></i>
+              </div>
+              <div class="stat-card-info">
+                <span class="stat-label">Total de Vendas</span>
+                <h3 class="stat-value" id="stat-sales-count">0</h3>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-icon bg-light-teal">
+                <i data-lucide="dollar-sign" class="text-teal"></i>
+              </div>
+              <div class="stat-card-info">
+                <span class="stat-label">Faturamento Total</span>
+                <h3 class="stat-value" id="stat-sales-revenue">R$ 0,00</h3>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-icon bg-light-green">
+                <i data-lucide="check-circle-2" class="text-green"></i>
+              </div>
+              <div class="stat-card-info">
+                <span class="stat-label">Valor Recebido</span>
+                <h3 class="stat-value" id="stat-sales-received">R$ 0,00</h3>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-icon bg-light-yellow">
+                <i data-lucide="clock" class="text-yellow"></i>
+              </div>
+              <div class="stat-card-info">
+                <span class="stat-label">A Receber</span>
+                <h3 class="stat-value" id="stat-sales-pending">R$ 0,00</h3>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-icon bg-light-purple">
+                <i data-lucide="receipt" class="text-purple"></i>
+              </div>
+              <div class="stat-card-info">
+                <span class="stat-label">Ticket Médio</span>
+                <h3 class="stat-value" id="stat-sales-avg-ticket">R$ 0,00</h3>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sales table -->
+          <div class="list-container">
+            <div class="table-card">
+              <table class="activities-table">
+                <thead>
+                  <tr>
+                    <th>Cliente</th>
+                    <th>Serviço</th>
+                    <th>Categoria</th>
+                    <th class="text-right">Parcelas</th>
+                    <th class="text-right">Valor Total</th>
+                    <th>Pagamento</th>
+                    <th>Status</th>
+                    <th>Data</th>
+                    <th class="text-right">Ações</th>
+                  </tr>
+                </thead>
+                <tbody id="sales-table-body">
+                  <!-- Dynamically populated rows -->
+                </tbody>
+              </table>
+              <div id="empty-state-sales" class="empty-state" style="display: none;">
+                <i data-lucide="shopping-bag" class="empty-icon"></i>
+                <h3>Nenhuma venda cadastrada</h3>
+                <p>Clique em "+ Nova Venda" para registrar o primeiro serviço vendido.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- PREVISÃO DE VENDAS VIEW -->
+        <div id="view-previsao" class="view-panel">
+
+          <!-- Meta x Ticket Médio -> Fechamentos necessários -->
+          <div class="dashboard-chart-card">
+            <div class="chart-header">
+              <h3>Meta de Fechamentos</h3>
+              <span class="chart-subtitle">Quantidade de fechamentos necessária para bater a meta, com base no ticket médio</span>
+            </div>
+            <div class="list-container">
+              <div class="table-card">
+                <table class="activities-table">
+                  <thead>
+                    <tr>
+                      <th>Meta de Faturamento</th>
+                      <th class="text-right">Ticket Médio</th>
+                      <th class="text-right">Fechamentos Necessários</th>
+                    </tr>
+                  </thead>
+                  <tbody id="forecast-goal-body">
+                    <!-- Dynamically populated -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Funil de volume por etapa + taxa de conversão global -->
+          <div class="dashboard-chart-card">
+            <div class="chart-header">
+              <h3>Funil de Conversão</h3>
+              <span class="chart-subtitle">Volume por etapa e taxa de conversão global (Vendidos ÷ Total Abordado)</span>
+            </div>
+            <div class="conversion-layout">
+              <div class="list-container conversion-table-wrap">
+                <div class="table-card">
+                  <table class="activities-table">
+                    <thead>
+                      <tr>
+                        <th>Etapa</th>
+                        <th class="text-right">Valores</th>
+                      </tr>
+                    </thead>
+                    <tbody id="conversion-table-body">
+                      <!-- Dynamically populated -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="conversion-arrow">→</div>
+              <div class="conversion-global-box">
+                <span class="cg-label">Taxa de conversão Global</span>
+                <span class="cg-value" id="conversion-global-value">0,000000</span>
+                <span class="cg-sub" id="conversion-global-pct">0,00%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Volume necessário no topo do funil -->
+          <div class="dashboard-chart-card">
+            <div class="chart-header">
+              <h3>Volume no Topo do Funil</h3>
+              <span class="chart-subtitle">Abordagens necessárias para bater a meta: Fechamentos Necessários ÷ Taxa de Conversão Global</span>
+            </div>
+            <div class="top-funnel-result">
+              <span class="tf-value" id="top-funnel-volume">—</span>
+              <span class="tf-label">abordagens necessárias no topo do funil</span>
+            </div>
+          </div>
+
+          <!-- Plano mensal de abordagens -->
+          <div class="dashboard-chart-card">
+            <div class="chart-header">
+              <h3>Plano Mensal de Abordagens</h3>
+              <span class="chart-subtitle">Contatos a abordar (Volume no Topo do Funil − Já abordados) divididos pelos meses restantes do ano</span>
+            </div>
+            <p class="monthly-plan-note" id="monthly-plan-summary"></p>
+            <div class="list-container">
+              <div class="table-card">
+                <table class="activities-table">
+                  <thead>
+                    <tr>
+                      <th>Mês</th>
+                      <th class="text-right">Contatos a Abordar</th>
+                    </tr>
+                  </thead>
+                  <tbody id="monthly-plan-body">
+                    <!-- Dynamically populated -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- MODAL FOR ADDING / EDITING TASK -->
+  <div class="modal-backdrop" id="task-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="modal-title">Adicionar Nova Atividade</h3>
+        <button class="btn-close-modal" id="btn-close-modal">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+      <form id="task-form">
+        <input type="hidden" id="task-id">
+        
+        <div class="form-grid">
+          <div class="form-group col-span-2">
+            <label for="task-title">Nome do Cliente / Título</label>
+            <input type="text" id="task-title" required placeholder="Ex: Sandra Johnson ou Prospecção Outbound">
+          </div>
+
+          <div class="form-group col-span-2">
+            <label for="task-subtitle">Empresa / Detalhes</label>
+            <input type="text" id="task-subtitle" placeholder="Ex: Focal Stack ou Detalhe do projeto">
+          </div>
+
+          <div class="form-group">
+            <label for="task-email">E-mail de Contato</label>
+            <input type="email" id="task-email" placeholder="nome@empresa.com">
+          </div>
+
+          <div class="form-group">
+            <label for="task-phone">Telefone</label>
+            <input type="text" id="task-phone" placeholder="(99) 99999-9999">
+          </div>
+
+          <div class="form-group col-span-2">
+            <label for="task-valor">Valor da Negociação (R$)</label>
+            <input type="number" id="task-valor" min="0" step="0.01" placeholder="Ex: 15000.00">
+          </div>
+
+          <div class="form-group">
+            <label for="task-assignee">Responsável</label>
+            <input type="text" id="task-assignee" required placeholder="Ex: Gregory Joseph">
+          </div>
+
+          <div class="form-group">
+            <label for="task-tag">Origem / Canal (Tag)</label>
+            <select id="task-tag">
+              <option value="Marketing">Marketing</option>
+              <option value="Negócios">Negócios</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="task-priority">Prioridade</label>
+            <select id="task-priority">
+              <option value="low">Baixa (Verde)</option>
+              <option value="medium">Média (Amarelo)</option>
+              <option value="high">Alta (Vermelho)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="task-status">Status</label>
+            <select id="task-status">
+              <!-- Options populated dynamically from statuses -->
+            </select>
+          </div>
+          
+          <div class="form-group col-span-2">
+            <label for="task-date">Data da Atividade</label>
+            <input type="date" id="task-date">
+          </div>
+
+          <div class="form-group col-span-2">
+            <label for="task-notes">Observações</label>
+            <textarea id="task-notes" rows="4" placeholder="Anotações sobre o contato, próximos passos, histórico da negociação..."></textarea>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="btn-cancel-modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary" id="btn-submit-modal">Salvar Atividade</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL FOR ADDING / EDITING SALE -->
+  <div class="modal-backdrop" id="sale-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="sale-modal-title">Cadastrar Nova Venda</h3>
+        <button class="btn-close-modal" id="btn-close-sale-modal">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+      <form id="sale-form">
+        <input type="hidden" id="sale-id">
+
+        <div class="form-grid">
+          <div class="form-group col-span-2">
+            <label for="sale-client">Cliente</label>
+            <input type="text" id="sale-client" required placeholder="Ex: Sandra Johnson / Focal Stack">
+          </div>
+
+          <div class="form-group col-span-2">
+            <label for="sale-service">Serviço Vendido</label>
+            <input type="text" id="sale-service" required placeholder="Ex: Implementação do CRM">
+          </div>
+
+          <div class="form-group">
+            <label for="sale-category">Categoria do Serviço</label>
+            <select id="sale-category">
+              <option value="Consultoria">Consultoria</option>
+              <option value="Implementação">Implementação</option>
+              <option value="Manutenção">Manutenção</option>
+              <option value="Treinamento">Treinamento</option>
+              <option value="Licença/Assinatura">Licença/Assinatura</option>
+              <option value="Suporte">Suporte</option>
+              <option value="Outro">Outro</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="sale-seller">Vendedor / Responsável</label>
+            <input type="text" id="sale-seller" placeholder="Ex: Gregory Joseph">
+          </div>
+
+          <div class="form-group col-span-2">
+            <label for="sale-description">Descrição Detalhada</label>
+            <textarea id="sale-description" rows="3" placeholder="Detalhe o escopo do serviço vendido, entregáveis, prazos, etc."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="sale-qty">Número de Parcelas</label>
+            <input type="number" id="sale-qty" min="1" step="1" value="1">
+          </div>
+
+          <div class="form-group">
+            <label for="sale-unit-value">Valor da Parcela (R$)</label>
+            <input type="number" id="sale-unit-value" min="0" step="0.01" placeholder="Ex: 1500.00">
+          </div>
+
+          <div class="form-group col-span-2">
+            <label for="sale-total-value">Valor Total (R$)</label>
+            <input type="number" id="sale-total-value" min="0" step="0.01" readonly placeholder="Parcelas × valor da parcela">
+          </div>
+
+          <div class="form-group">
+            <label for="sale-payment-method">Forma de Pagamento</label>
+            <select id="sale-payment-method">
+              <option value="À vista">À vista</option>
+              <option value="PIX">PIX</option>
+              <option value="Cartão de Crédito">Cartão de Crédito</option>
+              <option value="Boleto">Boleto</option>
+              <option value="Transferência">Transferência</option>
+              <option value="Parcelado">Parcelado</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="sale-payment-status">Status do Pagamento</label>
+            <select id="sale-payment-status">
+              <option value="pendente">Pendente</option>
+              <option value="parcial">Parcial</option>
+              <option value="pago">Pago</option>
+              <option value="cancelado">Cancelado</option>
+            </select>
+          </div>
+
+          <div class="form-group col-span-2">
+            <label for="sale-date">Data da Venda</label>
+            <input type="date" id="sale-date">
+          </div>
+
+          <div class="form-group col-span-2">
+            <label for="sale-notes">Observações</label>
+            <textarea id="sale-notes" rows="2" placeholder="Informações adicionais (opcional)"></textarea>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="btn-cancel-sale-modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Salvar Venda</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
